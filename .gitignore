@@ -21,7 +21,7 @@ www/system
 www/application/config
 www/data
 __pycache__
-
+.vscode/
 
 # temporary files (e.g. Vim)
 *~
