@@ -82,3 +82,4 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+CLAUDE.md
