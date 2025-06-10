@@ -105,7 +105,7 @@ The dssp data returned for a single residue is a tuple in the form:
 from __future__ import print_function
 
 import re
-from Bio._py3k import StringIO
+from io import StringIO
 import subprocess
 import warnings
 

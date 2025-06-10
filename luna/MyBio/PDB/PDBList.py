@@ -40,12 +40,9 @@ import os
 import shutil
 import re
 import sys
-
-# Importing these functions with leading underscore as not intended for reuse
-from Bio._py3k import _as_string
-from Bio._py3k import urlopen as _urlopen
-from Bio._py3k import urlretrieve as _urlretrieve
-from Bio._py3k import urlcleanup as _urlcleanup
+from urllib.request import urlopen as _urlopen
+from urllib.request import urlretrieve as _urlretrieve
+from urllib.request import urlcleanup as _urlcleanup
 
 
 class PDBList(object):
@@ -121,7 +118,7 @@ class PDBList(object):
             for line in handle:
                 pdb = line.strip()
                 assert len(pdb) == 4
-                answer.append(_as_string(pdb))
+                answer.append(pdb.decode())
         return answer
 
     def get_recent_changes(self):
@@ -156,7 +153,7 @@ class PDBList(object):
         url = self.pdb_server + '/pub/pdb/derived_data/index/entries.idx'
         print("Retrieving index file. Takes about 27 MB.")
         with contextlib.closing(_urlopen(url)) as handle:
-            all_entries = [_as_string(line[:4]) for line in handle.readlines()[2:]
+            all_entries = [line[:4].decode() for line in handle.readlines()[2:]
                            if len(line) > 4]
         return all_entries
 
@@ -193,7 +190,7 @@ class PDBList(object):
                     continue
                 pdb = line.split()[2]
                 assert len(pdb) == 4
-                obsolete.append(_as_string(pdb))
+                obsolete.append(pdb.decode())
         return obsolete
 
     def retrieve_pdb_file(self, pdb_code, obsolete=False, pdir=None, file_format=None, overwrite=False):

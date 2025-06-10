@@ -9,7 +9,7 @@ from luna.util.default_values import (PYMOL_INTERACTION_COLOR,
                                       INTERACTION_SHORT_NAMES)
 from luna.util.file import get_filename, get_file_format
 
-from Bio.Data.SCOPData import protein_letters_3to1
+from Bio.Data.PDBData import protein_letters_3to1
 
 import logging
 

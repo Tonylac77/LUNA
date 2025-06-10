@@ -22,7 +22,7 @@ from __future__ import print_function
 
 import numpy
 
-from Bio.KDTree import KDTree
+from Bio.PDB.kdtrees import KDTree
 
 # MODBY: Alexandre Fassio
 # Inherit inhouse modifications. Package: MyBio.
@@ -40,7 +40,7 @@ class NeighborSearch(object):
      2. To find all atoms/residues/chains/models/structures that are within
         a fixed radius of each other.
 
-    NeighborSearch makes use of the Bio.KDTree C++ module, so it's fast.
+    NeighborSearch makes use of the Bio.PDB.kdtrees C++ module, so it's fast.
     """
 
     def __init__(self, atom_list, bucket_size=10):

@@ -62,12 +62,10 @@ last residues) have been shown as M (methionine) by the get_sequence method.
 """
 
 from __future__ import print_function
-from Bio._py3k import basestring
 
 import warnings
 
-from Bio.Alphabet import generic_protein
-from Bio.Data import SCOPData
+from Bio.Data import PDBData
 from Bio.Seq import Seq
 
 # MODBY: Alexandre Fassio
@@ -194,13 +192,13 @@ def is_aa(residue, standard=False):
     False
     """
     # TODO - What about special cases like XXX, can they appear in PDB files?
-    if not isinstance(residue, basestring):
+    if not isinstance(residue, str):
         residue = residue.get_resname()
     residue = residue.upper()
     if standard:
         return residue in d3_to_index
     else:
-        return residue in SCOPData.protein_letters_3to1
+        return residue in PDBData.protein_letters_3to1
 
 
 class Polypeptide(list):
@@ -299,8 +297,8 @@ class Polypeptide(list):
         """
         s = ""
         for res in self:
-            s += SCOPData.protein_letters_3to1.get(res.get_resname(), 'X')
-        seq = Seq(s, generic_protein)
+            s += PDBData.protein_letters_3to1.get(res.get_resname(), 'X')
+        seq = Seq(s)
         return seq
 
     def __repr__(self):

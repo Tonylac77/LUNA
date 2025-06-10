@@ -6,7 +6,7 @@ import numpy as np
 import networkx as nx
 from networkx.algorithms.shortest_paths.weighted import single_source_dijkstra
 
-from Bio.KDTree import KDTree
+from Bio.PDB.kdtrees import KDTree
 
 from luna.MyBio.selector import Selector, AtomSelector
 from luna.MyBio.util import biopython_entity_to_mol
