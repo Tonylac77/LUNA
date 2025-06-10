@@ -1,4 +1,3 @@
-import unittest
 from os.path import dirname, abspath
 import sys
 
@@ -9,57 +8,66 @@ from luna.interaction.config import (InteractionConfig,
                                      DefaultInteractionConfig)
 
 
-class InteractionConfigTest(unittest.TestCase):
+class TestInteractionConfig:
 
     def test_init(self):
 
         # Wrong type.
-        self.assertRaises(ValueError, InteractionConfig, "error")
-        self.assertRaises(TypeError, InteractionConfig, 1)
-        self.assertRaises(TypeError, InteractionConfig, {1, 2, 3})
-        self.assertRaises(TypeError, InteractionConfig, [1, 2, 3])
-        self.assertRaises(TypeError, DefaultInteractionConfig, "error")
-        self.assertRaises(TypeError, DefaultInteractionConfig, 1)
-        self.assertRaises(TypeError, DefaultInteractionConfig, {1, 2, 3})
-        self.assertRaises(TypeError, DefaultInteractionConfig, [1, 2, 3])
-        self.assertRaises(TypeError, DefaultInteractionConfig,
-                          {"param1": 2.5, "param2": 5})
-        self.assertRaises(TypeError, DefaultInteractionConfig, None)
+        import pytest
+        with pytest.raises(ValueError):
+            InteractionConfig("error")
+        with pytest.raises(TypeError):
+            InteractionConfig(1)
+        with pytest.raises(TypeError):
+            InteractionConfig({1, 2, 3})
+        with pytest.raises(TypeError):
+            InteractionConfig([1, 2, 3])
+        with pytest.raises(TypeError):
+            DefaultInteractionConfig("error")
+        with pytest.raises(TypeError):
+            DefaultInteractionConfig(1)
+        with pytest.raises(TypeError):
+            DefaultInteractionConfig({1, 2, 3})
+        with pytest.raises(TypeError):
+            DefaultInteractionConfig([1, 2, 3])
+        with pytest.raises(TypeError):
+            DefaultInteractionConfig({"param1": 2.5, "param2": 5})
+        with pytest.raises(TypeError):
+            DefaultInteractionConfig(None)
 
         # Correctly initialized.
         config = InteractionConfig()
-        self.assertEqual(config, {})
+        assert config == {}
         config = InteractionConfig(None)
-        self.assertEqual(config, {})
+        assert config == {}
         config = InteractionConfig([])
-        self.assertEqual(config, {})
+        assert config == {}
 
         # Correctly initialized.
         config = InteractionConfig([("param1", 2.5), ("param2", 5)])
-        self.assertEqual(config["param1"], 2.5)
-        self.assertEqual(config["param2"], 5)
+        assert config["param1"] == 2.5
+        assert config["param2"] == 5
 
         # Correctly initialized.
         config = InteractionConfig({"param1": 2.5, "param2": 5})
-        self.assertEqual(config["param1"], 2.5)
-        self.assertEqual(config["param2"], 5)
+        assert config["param1"] == 2.5
+        assert config["param2"] == 5
 
         # Correctly initialized.
         config = InteractionConfig()
         config["param1"] = 2.5
         config["param2"] = 2
-        self.assertEqual(config["param1"], 2.5)
-        self.assertEqual(config["param2"], 2)
-        self.assertNotEqual(config["param2"], 5)
+        assert config["param1"] == 2.5
+        assert config["param2"] == 2
+        assert config["param2"] != 5
 
         # Correctly initialized.
         config = InteractionConfig({"param1": 2.5, "param2": 5})
-        self.assertEqual(config.params, ['param1', 'param2'])
+        assert config.params == ['param1', 'param2']
 
         # Correctly initialized.
         config = DefaultInteractionConfig()
-        self.assertEqual(sorted(config.params),
-                         sorted(['bsite_cutoff',
+        assert sorted(config.params) == sorted(['bsite_cutoff',
                                  'cache_cutoff',
                                  'max_an_ey_ang_ortho_multipolar_inter',
                                  'max_an_ey_ang_para_multipolar_inter',
@@ -116,24 +124,26 @@ class InteractionConfigTest(unittest.TestCase):
                                  'min_xar_ang_xbond_inter',
                                  'min_yan_ang_ybond_inter',
                                  'vdw_clash_tolerance',
-                                 'vdw_tolerance']))
+                                 'vdw_tolerance'])
 
         config["boundary_cutoff"] = 5
-        self.assertEqual(config["boundary_cutoff"], 5)
+        assert config["boundary_cutoff"] == 5
 
         # Access to nonexistent keys.
         config = DefaultInteractionConfig()
-        self.assertRaises(KeyError, lambda: config["error"])
+        import pytest
+        with pytest.raises(KeyError):
+            config["error"]
 
         # Access to removed keys.
         config = InteractionConfig({"param1": 2.5})
         del config["param1"]
-        self.assertRaises(KeyError, lambda: config["param1"])
+        with pytest.raises(KeyError):
+            config["param1"]
 
         # Access to nonexistent attributes.
         config = InteractionConfig({"param1": 2.5})
-        self.assertRaises(AttributeError, lambda: config.param1)
+        with pytest.raises(AttributeError):
+            config.param1
 
 
-if __name__ == '__main__':
-    unittest.main()
