@@ -8,7 +8,6 @@ import warnings
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio.Align import MultipleSeqAlignment
-from Bio.Alphabet import generic_protein
 
 from luna.MyBio.util import parse_from_file, save_to_file
 from luna.util.exceptions import InvalidSuperpositionFileError
@@ -94,8 +93,7 @@ tmalign="/media/data/Workspace/Softwares/TMalignc/TMalign")
     seq_pair, tm_score = get_seq_records(output, pdb_to_align, ref_pdb)
 
     alignment = TMAlignment(tm_score,
-                            records=seq_pair,
-                            alphabet=generic_protein)
+                            records=seq_pair)
 
     logger.info("TM-align finished successfully. %s."
                 % alignment[0].description)
